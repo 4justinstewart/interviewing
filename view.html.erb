@@ -1,0 +1,172 @@
+<h1>Paid Gig Contractual Amendments</h1>
+<p>This tool allows you to edit a paid gig's contractual requirements without compromising the brand or creator experience.  The old gig will be cancelled and a new gig will be created, simulating all the events of the old matched against the new requirements.</p>
+<p>"With great power comes great responsibility 🔑"</p>
+
+<%= form_with url: '#', class: 'col-md-6' do |form| %>
+  <h2>Current Contract</h2>
+
+  <div class='form-group'>
+    <%= form.label :cost, 'Creator Cost (USD)' %>
+    <br>
+    <%= form.number_field :cost, value: number_with_precision(@paid_gig.cost, strip_insignificant_zeros: true), class: 'form-control input-lg', readonly: true %>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :markup, 'Popular Pays Markup (USD)' %>
+    <br>
+    <%= form.number_field :markup, value: number_with_precision(@paid_gig.markup, strip_insignificant_zeros: true), class: 'form-control input-lg', readonly: true %>
+  </div>
+
+  <hr>
+  <h4>Requirements</h4>
+  <hr>
+
+  <div class='form-group'>
+    <%= form.label :photos_to_upload, 'Required Photos to Upload' %>
+    <br>
+    <%= form.number_field :photos_to_upload, value: @paid_gig.photos_to_upload, class: 'form-control input-lg', readonly: true %>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :blogs_to_upload, 'Required Blogs to Upload' %>
+    <br>
+    <%= form.number_field :blogs_to_upload, value: @paid_gig.blogs_to_upload, class: 'form-control input-lg', readonly: true %>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :videos_to_upload, 'Required Videos to Upload' %>
+    <br>
+    <%= form.number_field :videos_to_upload, value: @paid_gig.videos_to_upload, class: 'form-control input-lg', readonly: true %>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :mixed_media_to_upload, 'Required Mixed Media to Upload' %>
+    <br>
+    <%= form.number_field :mixed_media_to_upload, value: @paid_gig.mixed_media_to_upload, class: 'form-control input-lg', readonly: true %>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :minimum_child_content_submission_count, 'Required Minimum Items for Mixed Media Uploads (*Minimum 2)' %>
+    <br>
+    <%= form.number_field :minimum_child_content_submission_count, value: @paid_gig.minimum_child_content_submission_count, class: 'form-control input-lg', readonly: true %>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :required_feed_posts, 'Required Social Feed Posts' %>
+    <br>
+    <%= form.number_field :required_feed_posts, value: @paid_gig.required_feed_posts, class: 'form-control input-lg', readonly: true %>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :required_story_posts, 'Required Social Story Posts' %>
+    <br>
+    <%= form.number_field :required_story_posts, value: @paid_gig.required_story_posts, class: 'form-control input-lg', readonly: true %>
+  </div>
+
+  <% if @paid_gig.deliverables.present? %>
+    <hr>
+    <h4>Additional Deliverables</h4>
+    <hr>
+
+    <% @paid_gig.deliverables.each do |deliverable| %>
+      <div class='form-group'>
+        <%= form.label deliverable.kind.to_sym, "#{format_deliverable_kind(deliverable.kind)}" %>
+        <br>
+        <%= form.number_field "deliverables_#{deliverable.kind}".to_sym, value: deliverable.quantity, class: 'form-control input-lg', readonly: true %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= simple_nested_form_for @paid_gig, url: paid_gig_replace_path, method: :post, html: { class: 'col-md-6 paid-gig-replacement-amendments' } do |form| %>
+  <h2>Amendments</h2>
+
+  <div class='form-group'>
+    <%= form.label :cost, 'Creator Cost (USD)' %>
+    <br>
+    <%= form.number_field :cost, value: number_with_precision(@paid_gig.cost, strip_insignificant_zeros: true), class: 'form-control input-lg', id: 'paid_gig_cost' %>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :markup, 'Popular Pays Markup (USD)' %>
+    <br>
+    <%= form.number_field :markup, value: number_with_precision(@paid_gig.markup, strip_insignificant_zeros: true), class: 'form-control input-lg', id: 'paid_gig_markup' %>
+  </div>
+
+  <hr>
+  <h4>Requirements</h4>
+  <hr>
+
+  <div class='form-group'>
+    <%= form.label :photos_to_upload, 'Required Photos to Upload' %>
+    <br>
+    <%= form.number_field :photos_to_upload, value: @paid_gig.photos_to_upload, class: 'form-control input-lg', id: 'paid_gig_photos_to_upload' %>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :blogs_to_upload, 'Required Blogs to Upload' %>
+    <br>
+    <%= form.number_field :blogs_to_upload, value: @paid_gig.blogs_to_upload, class: 'form-control input-lg', id: 'paid_gig_blogs_to_upload' %>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :videos_to_upload, 'Required Videos to Upload' %>
+    <br>
+    <%= form.number_field :videos_to_upload, value: @paid_gig.videos_to_upload, class: 'form-control input-lg', id: 'paid_gig_videos_to_upload' %>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :mixed_media_to_upload, 'Required Mixed Media to Upload' %>
+    <br>
+    <%= form.number_field :mixed_media_to_upload, value: @paid_gig.mixed_media_to_upload, class: 'form-control input-lg', id: 'paid_gig_mixed_media_to_upload' %>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :minimum_child_content_submission_count, 'Required Minimum Items for Mixed Media Uploads (*Minimum 2)' %>
+    <br>
+    <%= form.number_field :minimum_child_content_submission_count, value: @paid_gig.minimum_child_content_submission_count, class: 'form-control input-lg', id: 'paid_gig_minimum_child_content_submission_count' %>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :required_feed_posts, 'Required Social Feed Posts' %>
+    <br>
+    <%= form.number_field :required_feed_posts, value: @paid_gig.required_feed_posts, class: 'form-control input-lg', id: 'paid_gig_required_feed_posts' %>
+  </div>
+
+  <div class='form-group'>
+    <%= form.label :required_story_posts, 'Required Social Story Posts' %>
+    <br>
+    <%= form.number_field :required_story_posts, value: @paid_gig.required_story_posts, class: 'form-control input-lg', id: 'paid_gig_required_story_posts' %>
+  </div>
+
+  <% if @paid_gig.deliverables.present? %>
+    <hr>
+    <h4>Additional Deliverables</h4>
+    <hr>
+  <% end %>
+
+  <div class='paid-gig-replacements__deliverables'>
+    <%= form.simple_fields_for :deliverables do |deliverable| %>
+      <%= deliverable.input :kind,
+          collection: @deliverable_kinds,
+          label_method: :titleize,
+          label: 'Kind' %>
+
+      <%= deliverable.input :quantity,
+          label: 'Quantity',
+          as: :integer %>
+
+      <%= deliverable.link_to_remove '
+          <span class=\'glyphicon glyphicon-remove\'></span>Remove'.html_safe,
+          class: 'text-danger' %>
+    <% end %>
+  </div>
+
+  <div class='paid-gig-replacements__link-to-add'>
+    <%= form.link_to_add '
+        <span class=\'glyphicon glyphicon-plus\'></span>Add Deliverable'.html_safe,
+        :deliverables %>
+  </div>
+
+  <button type='submit' class='btn btn-green-background btn-lg paid-gig-replacements__submit' id='amend-and-replace-gig'>Replace Paid Gig</button>
+<% end %>
